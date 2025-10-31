@@ -6,7 +6,12 @@ import { ProgressBar } from '@/components/ProgressBar';
 import { VolumeControl } from '@/components/VolumeControl';
 import { TrackInfo } from '@/components/TrackInfo';
 import { Playlist } from '@/components/Playlist';
+import { LibraryView } from '@/components/LibraryView';
+import { ArtistsView } from '@/components/ArtistsView';
+import { AllTracksView } from '@/components/AllTracksView';
 import { Card } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Play, Music2, Disc3, ListMusic } from 'lucide-react';
 import heroBg from '@/assets/hero-bg.jpg';
 
 const Index = () => {
@@ -160,77 +165,122 @@ const Index = () => {
           <p className="text-muted-foreground">Your personal music experience</p>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr,400px] gap-6 max-w-7xl mx-auto">
-          {/* Main Player */}
-          <div className="space-y-6">
-            {/* Now Playing Card */}
-            <Card className="p-8 bg-card/95 backdrop-blur-xl border-border shadow-card">
-              <div className="flex flex-col items-center mb-8">
-                {playerState.currentTrack ? (
-                  <img
-                    src={playerState.currentTrack.coverArt}
-                    alt={playerState.currentTrack.album}
-                    className="w-64 h-64 rounded-2xl object-cover shadow-glow mb-6"
-                  />
-                ) : (
-                  <div className="w-64 h-64 rounded-2xl bg-player-surface flex items-center justify-center mb-6">
-                    <div className="text-center">
-                      <div className="text-4xl mb-2">🎵</div>
-                      <div className="text-muted-foreground">No track playing</div>
+        <div className="max-w-7xl mx-auto">
+          <Tabs defaultValue="nowplaying" className="w-full">
+            <TabsList className="mb-6 bg-player-surface/50 backdrop-blur-xl border border-border p-1 h-auto">
+              <TabsTrigger value="nowplaying" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <Play className="h-4 w-4" />
+                Now Playing
+              </TabsTrigger>
+              <TabsTrigger value="tracks" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <ListMusic className="h-4 w-4" />
+                All Tracks
+              </TabsTrigger>
+              <TabsTrigger value="albums" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <Disc3 className="h-4 w-4" />
+                Albums
+              </TabsTrigger>
+              <TabsTrigger value="artists" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <Music2 className="h-4 w-4" />
+                Artists
+              </TabsTrigger>
+            </TabsList>
+
+            {/* Now Playing Tab */}
+            <TabsContent value="nowplaying" className="space-y-6">
+              <div className="grid lg:grid-cols-[1fr,400px] gap-6">
+                {/* Main Player */}
+                <div className="space-y-6">
+                  {/* Now Playing Card */}
+                  <Card className="p-8 bg-card/95 backdrop-blur-xl border-border shadow-card">
+                    <div className="flex flex-col items-center mb-8">
+                      {playerState.currentTrack ? (
+                        <img
+                          src={playerState.currentTrack.coverArt}
+                          alt={playerState.currentTrack.album}
+                          className="w-64 h-64 rounded-2xl object-cover shadow-glow mb-6"
+                        />
+                      ) : (
+                        <div className="w-64 h-64 rounded-2xl bg-player-surface flex items-center justify-center mb-6">
+                          <div className="text-center">
+                            <div className="text-4xl mb-2">🎵</div>
+                            <div className="text-muted-foreground">No track playing</div>
+                          </div>
+                        </div>
+                      )}
+                      <div className="text-center mb-2">
+                        <h2 className="text-2xl font-bold mb-1">
+                          {playerState.currentTrack?.title || 'Select a Track'}
+                        </h2>
+                        <p className="text-muted-foreground">
+                          {playerState.currentTrack?.artist || 'Artist'}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                )}
-                <div className="text-center mb-2">
-                  <h2 className="text-2xl font-bold mb-1">
-                    {playerState.currentTrack?.title || 'Select a Track'}
-                  </h2>
-                  <p className="text-muted-foreground">
-                    {playerState.currentTrack?.artist || 'Artist'}
-                  </p>
+
+                    <div className="space-y-6">
+                      <ProgressBar
+                        currentTime={playerState.currentTime}
+                        duration={playerState.currentTrack?.duration || 0}
+                        onSeek={handleSeek}
+                      />
+
+                      <PlayerControls
+                        isPlaying={playerState.isPlaying}
+                        isShuffled={playerState.isShuffled}
+                        repeatMode={playerState.repeatMode}
+                        onPlayPause={handlePlayPause}
+                        onPrevious={handlePrevious}
+                        onNext={handleNext}
+                        onShuffle={handleShuffle}
+                        onRepeat={handleRepeat}
+                      />
+                    </div>
+                  </Card>
+
+                  {/* Bottom Controls */}
+                  <Card className="p-4 bg-card/95 backdrop-blur-xl border-border">
+                    <div className="flex items-center justify-between">
+                      <TrackInfo track={playerState.currentTrack} />
+                      <VolumeControl
+                        volume={playerState.volume}
+                        isMuted={playerState.isMuted}
+                        onVolumeChange={handleVolumeChange}
+                        onMuteToggle={handleMuteToggle}
+                      />
+                    </div>
+                  </Card>
                 </div>
-              </div>
 
-              <div className="space-y-6">
-                <ProgressBar
-                  currentTime={playerState.currentTime}
-                  duration={playerState.currentTrack?.duration || 0}
-                  onSeek={handleSeek}
-                />
-
-                <PlayerControls
+                {/* Playlist */}
+                <Playlist
+                  tracks={musicLibrary}
+                  currentTrack={playerState.currentTrack}
                   isPlaying={playerState.isPlaying}
-                  isShuffled={playerState.isShuffled}
-                  repeatMode={playerState.repeatMode}
-                  onPlayPause={handlePlayPause}
-                  onPrevious={handlePrevious}
-                  onNext={handleNext}
-                  onShuffle={handleShuffle}
-                  onRepeat={handleRepeat}
+                  onTrackSelect={handleTrackSelect}
                 />
               </div>
-            </Card>
+            </TabsContent>
 
-            {/* Bottom Controls */}
-            <Card className="p-4 bg-card/95 backdrop-blur-xl border-border">
-              <div className="flex items-center justify-between">
-                <TrackInfo track={playerState.currentTrack} />
-                <VolumeControl
-                  volume={playerState.volume}
-                  isMuted={playerState.isMuted}
-                  onVolumeChange={handleVolumeChange}
-                  onMuteToggle={handleMuteToggle}
-                />
-              </div>
-            </Card>
-          </div>
+            {/* All Tracks Tab */}
+            <TabsContent value="tracks">
+              <AllTracksView
+                currentTrack={playerState.currentTrack}
+                isPlaying={playerState.isPlaying}
+                onTrackSelect={handleTrackSelect}
+              />
+            </TabsContent>
 
-          {/* Playlist */}
-          <Playlist
-            tracks={musicLibrary}
-            currentTrack={playerState.currentTrack}
-            isPlaying={playerState.isPlaying}
-            onTrackSelect={handleTrackSelect}
-          />
+            {/* Albums Tab */}
+            <TabsContent value="albums">
+              <LibraryView onTrackSelect={handleTrackSelect} />
+            </TabsContent>
+
+            {/* Artists Tab */}
+            <TabsContent value="artists">
+              <ArtistsView onTrackSelect={handleTrackSelect} />
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
 
