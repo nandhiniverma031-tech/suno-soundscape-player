@@ -167,7 +167,7 @@ const Index = () => {
 
         <div className="max-w-7xl mx-auto">
           <Tabs defaultValue="nowplaying" className="w-full">
-            <TabsList className="mb-6 bg-player-surface/50 backdrop-blur-xl border border-border p-1 h-auto">
+            <TabsList className="mb-6 bg-card/20 backdrop-blur-xl border border-white/10 p-1 h-auto">
               <TabsTrigger value="nowplaying" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <Play className="h-4 w-4" />
                 Now Playing
@@ -192,7 +192,7 @@ const Index = () => {
                 {/* Main Player */}
                 <div className="space-y-6">
                   {/* Now Playing Card */}
-                  <Card className="p-8 bg-card/95 backdrop-blur-xl border-border shadow-card">
+                  <Card className="p-8 bg-card/30 backdrop-blur-2xl border border-white/10 shadow-glow">
                     <div className="flex flex-col items-center mb-8">
                       {playerState.currentTrack ? (
                         <img
@@ -239,7 +239,7 @@ const Index = () => {
                   </Card>
 
                   {/* Bottom Controls */}
-                  <Card className="p-4 bg-card/95 backdrop-blur-xl border-border">
+                  <Card className="p-4 bg-card/30 backdrop-blur-2xl border border-white/10">
                     <div className="flex items-center justify-between">
                       <TrackInfo track={playerState.currentTrack} />
                       <VolumeControl

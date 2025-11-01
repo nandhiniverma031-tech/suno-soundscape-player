@@ -17,8 +17,8 @@ const formatDuration = (seconds: number): string => {
 
 export const Playlist = ({ tracks, currentTrack, isPlaying, onTrackSelect }: PlaylistProps) => {
   return (
-    <div className="rounded-xl bg-player-surface border border-border overflow-hidden">
-      <div className="p-4 border-b border-border">
+    <div className="rounded-xl bg-card/30 backdrop-blur-2xl border border-white/10 overflow-hidden shadow-glow">
+      <div className="p-4 border-b border-white/10">
         <h2 className="text-lg font-semibold">Playlist</h2>
         <p className="text-sm text-muted-foreground">{tracks.length} songs</p>
       </div>
@@ -32,8 +32,8 @@ export const Playlist = ({ tracks, currentTrack, isPlaying, onTrackSelect }: Pla
                 onClick={() => onTrackSelect(track)}
                 className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
                   isCurrentTrack
-                    ? 'bg-player-hover'
-                    : 'hover:bg-player-hover/50'
+                    ? 'bg-white/10'
+                    : 'hover:bg-white/5'
                 }`}
               >
                 <div className="relative flex-shrink-0">

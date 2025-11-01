@@ -26,7 +26,7 @@ export const ArtistsView = ({ onTrackSelect }: ArtistsViewProps) => {
       {Object.values(artists).map((artist) => (
         <Card
           key={artist.name}
-          className="group bg-card/95 backdrop-blur-xl border-border p-4 cursor-pointer hover:bg-player-hover transition-all hover:shadow-glow"
+          className="group bg-card/30 backdrop-blur-2xl border border-white/10 p-4 cursor-pointer hover:bg-white/10 transition-all hover:shadow-glow"
           onClick={() => onTrackSelect(artist.tracks[0])}
         >
           <div className="relative mb-4">

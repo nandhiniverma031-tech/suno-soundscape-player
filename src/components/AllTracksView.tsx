@@ -16,9 +16,9 @@ const formatDuration = (seconds: number): string => {
 
 export const AllTracksView = ({ currentTrack, isPlaying, onTrackSelect }: AllTracksViewProps) => {
   return (
-    <div className="rounded-xl bg-player-surface/50 backdrop-blur-xl border border-border overflow-hidden">
+    <div className="rounded-xl bg-card/30 backdrop-blur-2xl border border-white/10 overflow-hidden shadow-glow">
       {/* Header */}
-      <div className="grid grid-cols-[40px,1fr,200px,80px] gap-4 p-4 border-b border-border text-sm text-muted-foreground">
+      <div className="grid grid-cols-[40px,1fr,200px,80px] gap-4 p-4 border-b border-white/10 text-sm text-muted-foreground">
         <div className="text-center">#</div>
         <div>Title</div>
         <div>Album</div>
@@ -28,7 +28,7 @@ export const AllTracksView = ({ currentTrack, isPlaying, onTrackSelect }: AllTra
       </div>
 
       {/* Track List */}
-      <div className="divide-y divide-border/50">
+      <div className="divide-y divide-white/5">
         {musicLibrary.map((track, index) => {
           const isCurrentTrack = currentTrack?.id === track.id;
           return (
@@ -37,8 +37,8 @@ export const AllTracksView = ({ currentTrack, isPlaying, onTrackSelect }: AllTra
               onClick={() => onTrackSelect(track)}
               className={`w-full grid grid-cols-[40px,1fr,200px,80px] gap-4 p-4 items-center transition-all ${
                 isCurrentTrack
-                  ? 'bg-player-hover'
-                  : 'hover:bg-player-hover/50'
+                  ? 'bg-white/10'
+                  : 'hover:bg-white/5'
               }`}
             >
               <div className="text-center text-sm">
