@@ -9,9 +9,10 @@ import { Playlist } from '@/components/Playlist';
 import { LibraryView } from '@/components/LibraryView';
 import { ArtistsView } from '@/components/ArtistsView';
 import { AllTracksView } from '@/components/AllTracksView';
+import { SearchBar } from '@/components/SearchBar';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Play, Music2, Disc3, ListMusic } from 'lucide-react';
+import { Play, Music2, Disc3, ListMusic, Search } from 'lucide-react';
 import heroBg from '@/assets/hero-bg.jpg';
 
 const Index = () => {
@@ -158,11 +159,16 @@ const Index = () => {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-8">
-        <div className="mb-8 text-center">
-          <h1 className="text-5xl font-bold mb-2 bg-gradient-primary bg-clip-text text-transparent">
-            Suno
-          </h1>
-          <p className="text-muted-foreground">Your personal music experience</p>
+        <div className="mb-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
+            <div className="text-center md:text-left">
+              <h1 className="text-5xl font-bold mb-2 bg-gradient-primary bg-clip-text text-transparent">
+                Suno
+              </h1>
+              <p className="text-muted-foreground">Your personal music experience</p>
+            </div>
+            <SearchBar onTrackSelect={handleTrackSelect} />
+          </div>
         </div>
 
         <div className="max-w-7xl mx-auto">
